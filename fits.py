@@ -5,7 +5,7 @@ from collections import defaultdict
 import tkinter as tk
 from tkinter import filedialog
 
-
+# select the folder
 def folder_selection():
     # Hide the main tkinter window
     root = tk.Tk()
@@ -23,20 +23,20 @@ def folder_selection():
         print("No folder selected")
         exit()
 
-def item_validate(folder):
+def item_validate(folder): #checks if file name is a folder
     if folder.is_dir():
         return True
     else: 
         return False
 
 def contains_date(folder_name):
-    # Try every position in the string
+    #looking for the date keyword in the folder name
     if 'date' in folder_name:
             return True
     else:
         return False
 
-def get_lights(folder):
+def get_lights(folder): #goes inside folders with dates and checks if those sub files are folders and if so checks if their name is light or lights and then returns the path
     for item in folder.iterdir():
         if item.is_dir():
             if item.name.lower() == 'light' or item.name.lower() == 'lights':
@@ -45,10 +45,10 @@ def get_lights(folder):
         
 def fits_counter(lights_folder):
     counts = defaultdict(int) #missing key counts start at 0
-    for fits_file in lights_folder.glob('*.fits'):
-        header = fits.getheader(fits_file)
-        if 'FILTER' in header: 
-           counts[header['FILTER']] += 1
+    for fits_file in lights_folder.glob('*.fits'): #finds files in the lights folder that are .fits
+        header = fits.getheader(fits_file) #gets the fits header
+        if 'FILTER' in header: #checks if there is a filter header 
+           counts[header['FILTER']] += 1 #adds it the dictionary with the name of the filter
         else:
            print("No filter found")    
     return counts
