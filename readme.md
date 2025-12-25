@@ -173,6 +173,14 @@ Suggestions welcome!
 
 MIT License — free to use, modify, and distribute.
 
+## Support
+
+If this tool helped with your imaging sessions, consider buying me a coffee!
+
+<a href="buymeacoffee.com/dzauski585u">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="200">
+</a>
+
 ## Acknowledgments
 
 Built with:
@@ -180,4 +188,4 @@ Built with:
 - Python's tkinter — GUI dialogs
 - Claude.ai for readme creation, code commenting, and quick checks of logic/syntax
 
-Clear skies! 🌟
+Clear skies! 🌟.
