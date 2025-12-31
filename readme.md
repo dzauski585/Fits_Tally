@@ -1,6 +1,6 @@
 # FITS Frame Counter
 
-A user-friendly Python tool for astrophotographers to count light frames by filter and date. Works with any folder structure through interactive prompts.
+A user-friendly Python tool for astrophotographers to count light frames by filter and date. Works with any folder structure.
 
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -13,12 +13,75 @@ A user-friendly Python tool for astrophotographers to count light frames by filt
 - **Summary totals** — see counts per session and overall
 - **Ordered output** — filters displayed in logical order (L, R, G, B, H, S, O)
 
-## Sample Output
+## Scripts
+
+This project includes two versions:
+
+| Script | Description |
+|--------|-------------|
+| `fits.py` | Simple version with hardcoded settings (looks for "date" folders and "lights" subfolders) |
+| `fits_counter_prompts.py` | Configurable version with interactive prompts for custom folder structures |
+
+---
+
+## fits.py — Simple Version
+
+Best for users with a standard folder structure using "date" prefixes and "lights" subfolders.
+
+### Sample Output
 
 ```
-FITS Frame Counter
-==================================================
+You selected: astro_data
 
+date_2025-12-20: {'L': 50, 'R': 25, 'G': 25, 'B': 25}
+date_2025-12-21: {'L': 40, 'Ha': 30}
+date_2025-12-24: {'L': 60, 'R': 20, 'G': 20, 'B': 20, 'Ha': 15}
+--------------------------------------------------
+TOTAL: {'L': 150, 'R': 45, 'G': 45, 'B': 45, 'Ha': 45}
+```
+
+A popup dialog also displays the results:
+
+```
+┌─────────────────────────────────────────────────┐
+│  FITS Frame Counter - Results                   │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│  date_2025-12-20: {'L': 50, 'R': 25, 'G': 25,   │
+│                    'B': 25}                     │
+│  date_2025-12-21: {'L': 40, 'Ha': 30}           │
+│  date_2025-12-24: {'L': 60, 'R': 20, 'G': 20,   │
+│                    'B': 20, 'Ha': 15}           │
+│  ----------------------------------------       │
+│  TOTAL: {'L': 150, 'R': 45, 'G': 45,            │
+│          'B': 45, 'Ha': 45}                     │
+│                                                 │
+│                    [ OK ]                       │
+└─────────────────────────────────────────────────┘
+```
+
+### Expected Folder Structure
+
+```
+data/
+├── date_2025-12-20/
+│   └── lights/
+│       ├── image_001.fits
+│       └── image_002.fits
+└── date_2025-12-21/
+    └── lights/
+        └── image_001.fits
+```
+
+---
+
+## fits_counter_prompts.py — Configurable Version
+
+Best for users with custom folder structures or non-standard naming conventions.
+
+### Sample Output
+
+```
 Settings:
   Date keyword: date
   Subfolder: lights
@@ -34,6 +97,81 @@ date_2025-12-24: {'L': 60, 'R': 20, 'G': 20, 'B': 20, 'Ha': 15}
 TOTAL: {'L': 150, 'R': 45, 'G': 45, 'B': 45, 'Ha': 45}
 ```
 
+### Configuration Dialogs
+
+Before selecting a folder, three dialog prompts appear:
+
+```
+┌─────────────────────────────────────────────────┐
+│  Date Identifier                                │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│  How are your date folders identified?          │
+│                                                 │
+│  Examples:                                      │
+│    • 'date' if folders are like 'date_2025...' │
+│    • '2025' if folders are like '2025-12-24'   │
+│    • Leave blank to include ALL subfolders     │
+│                                                 │
+│  [ date_____________________________ ]          │
+│                                                 │
+│              [ OK ]  [ Cancel ]                 │
+└─────────────────────────────────────────────────┘
+```
+
+```
+┌─────────────────────────────────────────────────┐
+│  Subfolder Name                                 │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│  What is your imaging subfolder called?         │
+│                                                 │
+│  Examples: lights, light, Light, LIGHT          │
+│                                                 │
+│  [ lights___________________________ ]          │
+│                                                 │
+│              [ OK ]  [ Cancel ]                 │
+└─────────────────────────────────────────────────┘
+```
+
+```
+┌─────────────────────────────────────────────────┐
+│  FITS Keyword                                   │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│  What FITS header keyword contains your         │
+│  filter name?                                   │
+│                                                 │
+│  Common options: FILTER, FILTER1, FILTNAM       │
+│                                                 │
+│  [ FILTER___________________________ ]          │
+│                                                 │
+│              [ OK ]  [ Cancel ]                 │
+└─────────────────────────────────────────────────┘
+```
+
+### Results Dialog
+
+```
+┌─────────────────────────────────────────────────┐
+│  FITS Frame Counter - Results                   │
+├─────────────────────────────────────────────────┤
+│                                                 │
+│  date_2025-12-20: {'L': 50, 'R': 25, 'G': 25,   │
+│                    'B': 25}                     │
+│  date_2025-12-21: {'L': 40, 'Ha': 30}           │
+│  date_2025-12-24: {'L': 60, 'R': 20, 'G': 20,   │
+│                    'B': 20, 'Ha': 15}           │
+│  ----------------------------------------       │
+│  TOTAL: {'L': 150, 'R': 45, 'G': 45,            │
+│          'B': 45, 'Ha': 45}                     │
+│                                                 │
+│                    [ OK ]                       │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
 ## Installation
 
 ### Option 1: Run from source
@@ -42,8 +180,11 @@ TOTAL: {'L': 150, 'R': 45, 'G': 45, 'B': 45, 'Ha': 45}
 # Install dependency
 pip install astropy
 
-# Run
-python fits_counter.py
+# Run simple version
+python fits.py
+
+# Run configurable version
+python fits_counter_prompts.py
 ```
 
 ### Option 2: Create standalone executable
@@ -53,24 +194,16 @@ python fits_counter.py
 pip install pyinstaller
 
 # Create .exe (Windows) or binary (Mac/Linux)
-pyinstaller --onefile --windowed fits_counter.py
+pyinstaller --onefile --windowed fits_counter_prompts.py
 ```
 
 The executable will be in the `dist` folder. Share this file — no Python installation required!
 
-## Usage
-
-1. **Run the program**
-2. **Configure your settings** (three dialog boxes):
-   - **Date identifier**: What text identifies your date folders? (e.g., "date", "2025", or blank for all folders)
-   - **Subfolder name**: What's your lights folder called? (e.g., "lights", "Light", "LIGHT")
-   - **FITS keyword**: What header keyword contains filter info? (e.g., "FILTER", "FILTER1", "FILTNAM")
-3. **Select your data folder**
-4. **View results**
+---
 
 ## Supported Folder Structures
 
-The program is flexible. Here are some examples that all work:
+The configurable version (`fits_counter_prompts.py`) is flexible. Here are some examples:
 
 **Structure A: date prefix**
 ```
@@ -112,6 +245,8 @@ data/
 ```
 Settings: Date keyword = (leave blank), Subfolder = `lights`
 
+---
+
 ## Common FITS Filter Keywords
 
 | Camera/Software | Keyword |
@@ -133,6 +268,8 @@ for key in header:
     print(f"{key}: {header[key]}")
 ```
 
+---
+
 ## Troubleshooting
 
 **"No matching folders found"**
@@ -148,22 +285,13 @@ for key in header:
 - On Linux, you may need: `sudo apt install python3-tk`
 - On Mac, tkinter should be included with Python
 
-## Creating an Executable
-
-To share with others who don't have Python:
-
-```bash
-pip install pyinstaller
-pyinstaller --onefile --windowed fits_counter.py
-```
-
-Find the executable in the `dist/` folder.
-
-**Note for Mac users:** You may need to right-click and select "Open" the first time due to Gatekeeper.
+---
 
 ## Executable Download
 
-You can find a downloadable exe file in the repo if you want to just download that or make it yourself with the instructions above. 
+You can find a downloadable exe file in the repo if you want to just download that or make it yourself with the instructions above.
+
+---
 
 ## Contributing
 
@@ -188,4 +316,4 @@ Built with:
 - Python's tkinter — GUI dialogs
 - Claude.ai for readme creation, code commenting, and quick checks of logic/syntax
 
-Clear skies! 🌟.
+Clear skies! 🌟
